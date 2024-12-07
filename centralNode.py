@@ -1,15 +1,13 @@
 from flask import Flask, jsonify, request
 import requests
 import os
-import sys
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
-parent_dir = os.path.dirname(os.path.dirname(__file__))
 from utils.uploadDocuments import uploadFile
-
+from config import *
 app = Flask(__name__)
 
 nodesMetadata = {}
 NODE_COUNTER = 0
+workDoneNodes = set()
 
 @app.route('/api/centralNode/register', methods= ['POST'])
 def registerNode():
@@ -43,7 +41,7 @@ def registerNode():
 def mapReduce():
     print("started")
     #send the files equally
-    doc_path = os.path.join(parent_dir, 'documents')
+    doc_path = os.path.join(BASE_DIR, 'documents')
     file_paths = os.listdir(doc_path)
     totalFiles = len(file_paths)
 
@@ -73,7 +71,31 @@ def mapReduce():
     return jsonify(file_status), 200
     
 
+@app.route('/api/centralNode/workDone', methods = ['POST'])
+def workDone():
+    global workDoneNodes
+    try:
+        data = request.get_json()
+        '''
+        data = {
+        'message':'job done',
+        'NodeID':{NodeID}
+        }
+        '''
+        workDoneNodes.add(data.get('NodeID'))
+        print(f"Work Completed by {data.get('NodeID')}")
 
+        if len(workDoneNodes) == NODE_COUNTER:
+            print("All nodes have reported work completion.")
+            # Reset state for potential future MapReduce cycles
+            workDoneNodes.clear()
+            return jsonify({'message': 'All nodes have completed their tasks'}), 200
+        
+        return jsonify({'message': 'Work completion tracked'}), 200
+    except Exception as e:
+        print(e)
+        return jsonify(f'error: {str(e)}'), 500
+    
 
 
 if(__name__ == '__main__'):

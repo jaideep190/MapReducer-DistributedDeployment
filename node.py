@@ -1,15 +1,11 @@
 from flask import Flask, request, jsonify
-from registerNode import Register
-import sys
-sys.path.append('../')
+from utils.registerNode import Register
 from config import *
 from utils.mapper import mapper
 from utils.shuffleSort import shuffleSort
-from utils.reduce import reducer
 from threading import Thread, Event
 
 app = Flask('__name__')
-
 
 #register the node
 NodeID = Register()
@@ -32,7 +28,7 @@ def get_documents(NodeID):
     try:
         file = request.files['file']
         
-        output_dir = os.path.join(os.path.dirname(__file__), f'../uploads_{NodeID}')
+        output_dir = os.path.join(BASE_DIR, f'temp/uploads_{NodeID}')
         os.makedirs(output_dir, exist_ok=True)
 
         output_path = os.path.join(output_dir, file.filename)
@@ -58,7 +54,7 @@ def map_reduce(NodeID):
     global shuffle_sorted_pairs
     nodesMetadata = dict(request.get_json())
     print(nodesMetadata)
-    documents_path = f'../uploads_{NodeID}'
+    documents_path = f'temp/uploads_{NodeID}'
     documents = os.listdir(documents_path)
     print(documents)
     

@@ -1,2 +1,3 @@
 myenv/
-documents/
+__pycache__/
+temp/

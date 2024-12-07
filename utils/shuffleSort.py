@@ -1,5 +1,6 @@
 import requests
 from .hash import customHash
+from .notifyWorkDone import notifyCentralNode
 
 def shuffleSort(key_value_pairs, nodesMetadata, shuffle_sorted_pairs, NodeID):
     NodesCounter = len(nodesMetadata)
@@ -27,5 +28,6 @@ def shuffleSort(key_value_pairs, nodesMetadata, shuffle_sorted_pairs, NodeID):
                     print(f"Failed to send {item} to {node_number}. Status code: {response.status_code}")
             except Exception as e:
                 print(f"Failed to send {item} to Node {node_number}: {e}")
+    notifyCentralNode(NodeID)
 
     

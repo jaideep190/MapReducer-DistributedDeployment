@@ -10,11 +10,6 @@ The **MapReduce Framework** splits a large task into smaller, concurrent sub-tas
 
 ![MapReduce Workflow](assets/mapReduce.png)
 
-### **Key Benefits**
-- **Scalability**: Handles large datasets by distributing tasks across multiple nodes.
-- **Efficiency**: Parallel processing accelerates task completion.
-- **Fault Tolerance**: Ensures resilience in case of file upload failures.
-
 ---
 
 ## **System Architecture**

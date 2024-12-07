@@ -8,9 +8,9 @@ def shuffleSort(key_value_pairs, nodesMetadata, shuffle_sorted_pairs, NodeID):
 
         if node_number == NodeID:
             if item[0] in shuffle_sorted_pairs:
-                shuffle_sorted_pairs[item[0]].append(item[1])
+                shuffle_sorted_pairs[item[0]].add(item[1])
             else:
-                shuffle_sorted_pairs[item[0]] = [item[1]]
+                shuffle_sorted_pairs[item[0]] = {item[1]}
         else:
             try:
                 ip_address = nodesMetadata[str(node_number)][0]

@@ -93,9 +93,9 @@ def updateShuffleSortPairs(NodeID):
         if item and 'key' in item and 'value' in item:
             key, value = item['key'], item['value']
             if key in shuffle_sorted_pairs:
-                shuffle_sorted_pairs[key].append(value)
+                shuffle_sorted_pairs[key].add(value)
             else:
-                shuffle_sorted_pairs[key] = [value]
+                shuffle_sorted_pairs[key] = {value}
 
             print('Updated shuffle_sorted_pairs:', shuffle_sorted_pairs)
             return jsonify({'message': 'Pair received'}), 200
